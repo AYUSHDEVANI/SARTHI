@@ -5,7 +5,7 @@ from langdetect.lang_detect_exception import LangDetectException
 from transformers import pipeline
 from flask import Flask, request, jsonify
 # import torch
-import abc
+# import abc
 
 # Initialize the Translate API client
 # translate_client = translate.Client()
@@ -47,13 +47,13 @@ def detect_language(text):
 # def main():
 #     text_translator = pipeline("translation", model="facebook/nllb-200-distilled-600M", max_length=400)
     
-# text_translator = pipeline("translation", model="facebook/nllb-200-distilled-600M", max_length=400)
+text_translator = pipeline("translation", model="facebook/nllb-200-distilled-600M", max_length=400)
 
     
 # def abc.translate_text(text, src_lang="hin", tgt_lang="eng_Latn", max_length=400):
-#     # Translate the text using NLLB-200
-#     translated = abc.text_translator(text, src_lang=src_lang, tgt_lang=tgt_lang, max_length=max_length)
-#     return translated[0]['translation_text']
+    # Translate the text using NLLB-200
+    translated = abc.text_translator(text, src_lang=src_lang, tgt_lang=tgt_lang, max_length=max_length)
+    return translated[0]['translation_text']
 
 def get_location_from_ip():
     """Automatically get location from user's IP address."""
@@ -86,13 +86,13 @@ def get_weather(location, language="en"):
 
 
                 if language == "Hindi":
-                    translated_location = abc.translate_text(location, src_lang="eng_Latn", tgt_lang="hin_Deva", max_length=100)
-                    translated_weather = abc.translate_text(weather, src_lang="eng_Latn", tgt_lang="hin_Deva", max_length=100)
+                    translated_location = translate_text(location, src_lang="eng_Latn", tgt_lang="hin_Deva", max_length=100)
+                    translated_weather = translate_text(weather, src_lang="eng_Latn", tgt_lang="hin_Deva", max_length=100)
 
                     return f"{translated_location} में वर्तमान मौसम {translated_weather} है और तापमान {temperature}°C है।"
                 elif language == "Gujarati":
-                    translated_location = abc.translate_text(location, src_lang="eng_Latn", tgt_lang="guj_Gujr", max_length=100)
-                    translated_weather = abc.translate_text(weather, src_lang="eng_Latn", tgt_lang="guj_Gujr", max_length=100)
+                    translated_location = translate_text(location, src_lang="eng_Latn", tgt_lang="guj_Gujr", max_length=100)
+                    translated_weather = translate_text(weather, src_lang="eng_Latn", tgt_lang="guj_Gujr", max_length=100)
                     return f"{translated_location}માં વર્તમાન હવામાન {translated_weather} છે અને તાપમાન {temperature}°C છે."
                 else:
                     return f"The current weather in {location} is {weather} with a temperature of {temperature}°C."
@@ -142,9 +142,9 @@ def get_nearest_apmc_prices(crop_name, language="en"):
             data = response.json()
 
             if language == "Hindi":
-                crop_name = abc.translate_text(crop_name, src_lang="eng_Latn", tgt_lang="hin_Deva", max_length=100)
+                crop_name = translate_text(crop_name, src_lang="eng_Latn", tgt_lang="hin_Deva", max_length=100)
             elif language == "Gujarati":
-                crop_name = abc.translate_text(crop_name, src_lang="eng_Latn", tgt_lang="guj_Gujr", max_length=100)
+                crop_name = translate_text(crop_name, src_lang="eng_Latn", tgt_lang="guj_Gujr", max_length=100)
             else:
                 crop_name = crop_name
             
@@ -165,16 +165,16 @@ def get_nearest_apmc_prices(crop_name, language="en"):
             apmc_name = data["data"][-1]["marketName"]
 
             if language == "Hindi":
-                apmc_name = abc.translate_text(apmc_name, src_lang="eng_Latn", tgt_lang="hin_Deva", max_length=100)
-                city = abc.translate_text(city, src_lang="eng_Latn", tgt_lang="hin_Deva", max_length=100)
-                min_price = abc.translate_text(str(min_price), src_lang="eng_Latn", tgt_lang="hin_Deva", max_length=100)
-                max_price = abc.translate_text(str(max_price), src_lang="eng_Latn", tgt_lang="hin_Deva", max_length=100)
+                apmc_name = translate_text(apmc_name, src_lang="eng_Latn", tgt_lang="hin_Deva", max_length=100)
+                city = translate_text(city, src_lang="eng_Latn", tgt_lang="hin_Deva", max_length=100)
+                min_price = translate_text(str(min_price), src_lang="eng_Latn", tgt_lang="hin_Deva", max_length=100)
+                max_price = translate_text(str(max_price), src_lang="eng_Latn", tgt_lang="hin_Deva", max_length=100)
 
             elif language == "Gujarati":
-                apmc_name = abc.translate_text(apmc_name, src_lang="eng_Latn", tgt_lang="guj_Gujr", max_length=100)
-                city = abc.translate_text(city, src_lang="eng_Latn", tgt_lang="guj_Gujr", max_length=100)
-                min_price = abc.translate_text(str(min_price), src_lang="eng_Latn", tgt_lang="guj_Gujr", max_length=100)
-                max_price = abc.translate_text(str(max_price), src_lang="eng_Latn", tgt_lang="guj_Gujr", max_length=100)    
+                apmc_name = translate_text(apmc_name, src_lang="eng_Latn", tgt_lang="guj_Gujr", max_length=100)
+                city = translate_text(city, src_lang="eng_Latn", tgt_lang="guj_Gujr", max_length=100)
+                min_price = translate_text(str(min_price), src_lang="eng_Latn", tgt_lang="guj_Gujr", max_length=100)
+                max_price = translate_text(str(max_price), src_lang="eng_Latn", tgt_lang="guj_Gujr", max_length=100)    
 
             if language == "Hindi":
                return (
@@ -294,10 +294,10 @@ def chat():
             if detected_language == "English":
                 price_crop = user_input
             elif detected_language == "Hindi":
-                price_crop = abc.translate_text(user_input, src_lang="hin", tgt_lang="eng_Latn")
+                price_crop = translate_text(user_input, src_lang="hin", tgt_lang="eng_Latn")
                 # print(price_crop)
             elif detected_language == "Gujarati":
-                price_crop = abc.translate_text(user_input, src_lang="guj", tgt_lang="eng_Latn")
+                price_crop = translate_text(user_input, src_lang="guj", tgt_lang="eng_Latn")
             
             # print(price_crop)
 

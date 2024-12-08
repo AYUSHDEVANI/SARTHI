@@ -1,0 +1,6 @@
+Flask
+geocoder
+langdetect
+transformers
+torch
+requests
