@@ -4,6 +4,7 @@ from langdetect import detect, DetectorFactory
 from langdetect.lang_detect_exception import LangDetectException
 from transformers import pipeline
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 # import torch
 # import abc
 
@@ -26,6 +27,7 @@ model = genai.GenerativeModel("gemini-1.5-flash")
  
 
 app = Flask(__name__)
+CORS(app) 
 
 
 
@@ -50,9 +52,9 @@ def detect_language(text):
 text_translator = pipeline("translation", model="facebook/nllb-200-distilled-600M", max_length=400)
 
     
-# def abc.translate_text(text, src_lang="hin", tgt_lang="eng_Latn", max_length=400):
+def translate_text(text, src_lang="hin", tgt_lang="eng_Latn", max_length=400):
     # Translate the text using NLLB-200
-    translated = abc.text_translator(text, src_lang=src_lang, tgt_lang=tgt_lang, max_length=max_length)
+    translated = text_translator(text, src_lang=src_lang, tgt_lang=tgt_lang, max_length=max_length)
     return translated[0]['translation_text']
 
 def get_location_from_ip():
